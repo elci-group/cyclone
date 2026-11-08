@@ -1,0 +1,13 @@
+[package]
+name = "cyclone-registry"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Tenant-isolated current registry, neutral federation, and shared reuse economics"
+
+[dependencies]
+cyclone-ir.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true

@@ -1,0 +1,16 @@
+[package]
+name = "cyclone-runtime"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Canary admission, drift, rollback, and lifecycle for compiled currents"
+
+[dependencies]
+cyclone-ir.workspace = true
+cyclone-observe.workspace = true
+cyclone-telemetry.workspace = true
+cyclone-verify.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true

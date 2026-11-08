@@ -1,0 +1,12 @@
+[package]
+name = "cyclone-dashboard"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Operator dashboard projection of a cyclone journal"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true

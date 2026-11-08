@@ -1,0 +1,12 @@
+{
+  "schema": "cyclone.evidence-table/v0",
+  "entries": [
+    {
+      "signature": [
+        "pure"
+      ],
+      "replay": "passed",
+      "economics_minor": 1
+    }
+  ]
+}

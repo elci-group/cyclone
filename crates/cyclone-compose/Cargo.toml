@@ -1,0 +1,17 @@
+[package]
+name = "cyclone-compose"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Typed cyclone graphs and interpret-only scheduling"
+
+[dependencies]
+cyclone-ir.workspace = true
+cyclone-observe.workspace = true
+cyclone-verify.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true

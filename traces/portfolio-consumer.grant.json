@@ -1,0 +1,8 @@
+{
+  "schema": "cyclone.grant/v0",
+  "source_tenant": "tenant-a",
+  "consumer_tenant": "tenant-b",
+  "signature": ["read"],
+  "operations": ["read"],
+  "principal": "portfolio-clerk"
+}

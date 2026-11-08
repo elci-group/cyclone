@@ -1,0 +1,98 @@
+{
+  "schema": "cyclone.corpus.lock/v0",
+  "procedure": "repository-preflight/v0",
+  "repositories": [
+    {
+      "path": "/home/sal/Tov",
+      "head": "ba81eb0d9cffe745411cafdd112c59d86cd7deb8",
+      "branch": "main",
+      "manifests": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "3fde3cfae107b8e34e9701fc432a5a1fe2f35900ebcd96dd0f566c13c000042f",
+          "bytes": 152
+        },
+        {
+          "manifest": "crates/tov/Cargo.toml",
+          "sha256": "3d76a5fdc56000d7239da865f07dd2a31429e18e8e1f5af8b0e14d158b729530",
+          "bytes": 772
+        }
+      ]
+    },
+    {
+      "path": "/home/sal/lastdown",
+      "head": "e1c4a4e6ee7567133b3762a25dd9dd517660a4da",
+      "branch": "main",
+      "manifests": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "cd0b214490412f7e4e50f5db0b256a96203e34bef24eb4fd8c60759d7ba82496",
+          "bytes": 390
+        }
+      ]
+    },
+    {
+      "path": "/home/sal/deliver",
+      "head": "1a1d473df4732f7e64edeee306b366d5bcd85c37",
+      "branch": "drowzy",
+      "manifests": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "b05de92b38ccccb921ac1c4f9134e972527297ae9bdd3555947b6c2c12409ae5",
+          "bytes": 1135
+        }
+      ]
+    },
+    {
+      "path": "/home/sal/lucid-cli",
+      "head": "e10024bfecf3d4ee6846aced5282a9ec55f148fc",
+      "branch": "main",
+      "manifests": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "0373672c893f4b3eafcce0ba2b782322aa9752fa01e4ba54ca917f5f8f05e251",
+          "bytes": 701
+        },
+        {
+          "manifest": "crates/lucid-contract/Cargo.toml",
+          "sha256": "bd85ba12dd7be313d773f07619a79b213fe46e429bc08104ad69de3ea9b4003d",
+          "bytes": 384
+        },
+        {
+          "manifest": "crates/lucid-core/Cargo.toml",
+          "sha256": "02f6e9faf8a66a93e1574e521821b696f97d85aaddce03f71524fce76654801b",
+          "bytes": 683
+        },
+        {
+          "manifest": "crates/lucid-cli/Cargo.toml",
+          "sha256": "beec7c9352090075e5f6f9eaaf2333020d66de163f3bdaf0f5334debc1f9d211",
+          "bytes": 592
+        }
+      ]
+    },
+    {
+      "path": "/home/sal/bank",
+      "head": "9ba841a01d9c98294860f249a865b8eb664e48a1",
+      "branch": "main",
+      "manifests": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "db5c5344eec2ce3db8d384198f682ae091f63ecbb8e27312afe6aeb11bfc3a75",
+          "bytes": 749
+        }
+      ]
+    },
+    {
+      "path": "/home/sal/padagonia",
+      "head": "151df6ea63da43253ad02d6f48238cf587ed2a02",
+      "branch": "main",
+      "manifests": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "0528845c5259d52adad158b7489a571643b2367f05eee6974af0c685aabc01f1",
+          "bytes": 1573
+        }
+      ]
+    }
+  ]
+}

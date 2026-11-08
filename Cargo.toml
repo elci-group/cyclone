@@ -1,0 +1,46 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/cyclone-observe",
+    "crates/cyclone-detect",
+    "crates/cyclone-pressure",
+    "crates/cyclone-ir",
+    "crates/cyclone-compile",
+    "crates/cyclone-verify",
+    "crates/cyclone-compose",
+    "crates/cyclone-telemetry",
+    "crates/cyclone-runtime",
+    "crates/cyclone-registry",
+    "crates/cyclone-adversarial",
+    "crates/cyclone-dashboard",
+    "crates/cyclone-equivalence",
+    "crates/cyclone-guarantees",
+    "crates/cyclone-authority",
+    "crates/cyclone",
+]
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+version = "0.1.0"
+publish = false
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+cyclone-observe = { path = "crates/cyclone-observe" }
+cyclone-detect = { path = "crates/cyclone-detect" }
+cyclone-pressure = { path = "crates/cyclone-pressure" }
+cyclone-ir = { path = "crates/cyclone-ir" }
+cyclone-compile = { path = "crates/cyclone-compile" }
+cyclone-verify = { path = "crates/cyclone-verify" }
+cyclone-compose = { path = "crates/cyclone-compose" }
+cyclone-telemetry = { path = "crates/cyclone-telemetry" }
+cyclone-runtime = { path = "crates/cyclone-runtime" }
+cyclone-registry = { path = "crates/cyclone-registry" }
+cyclone-adversarial = { path = "crates/cyclone-adversarial" }
+cyclone-dashboard = { path = "crates/cyclone-dashboard" }
+cyclone-equivalence = { path = "crates/cyclone-equivalence" }
+cyclone-guarantees = { path = "crates/cyclone-guarantees" }
+cyclone-authority = { path = "crates/cyclone-authority" }

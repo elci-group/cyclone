@@ -1,0 +1,7 @@
+{
+  "schema": "cyclone.policy/v0",
+  "enabled": false,
+  "canary_modulus": 10,
+  "hysteresis": 3,
+  "initial": "shadow"
+}

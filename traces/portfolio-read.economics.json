@@ -1,0 +1,15 @@
+{
+  "schema": "cyclone.economics/v0",
+  "entries": [
+    {
+      "signature": ["read"],
+      "executions": 30,
+      "cost_original": 10,
+      "cost_compiled": 1,
+      "cost_detection": 20,
+      "cost_validation": 5,
+      "cost_maintenance": 5,
+      "cost_risk": 0
+    }
+  ]
+}

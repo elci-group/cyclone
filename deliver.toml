@@ -1,0 +1,383 @@
+# Cyclone gate through the authority context.
+# Commands need: deliver --spec deliver.toml --strict --allow-commands
+
+[[file]]
+path = "README.md"
+required = true
+min_size_bytes = 200
+require_regex = ["CTD-001", "Phase 0"]
+forbid_regex = ["TODO", "FIXME"]
+forbid_secrets = true
+
+[[file]]
+path = "docs/ctd/CTD-001.md"
+required = true
+min_size_bytes = 8000
+require_regex = ["CTD-001", "Repository Preflight", "Phase 0"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/phase-0/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["Agent observations"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0001-phase-0-holds-implementation.md"
+required = true
+min_size_bytes = 400
+require_regex = ["Phase 1"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0002-tov-toolchain-interface.md"
+required = true
+min_size_bytes = 400
+require_regex = ["tov 0.0.1"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0003-lucid-session-observations.md"
+required = true
+min_size_bytes = 400
+require_regex = ["lucid.session/v1", "sequence"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0004-economics-stay-unmeasured.md"
+required = true
+min_size_bytes = 400
+require_regex = ["V_c"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/threat-model/phase-0.md"
+required = true
+min_size_bytes = 800
+require_regex = ["tenant_id", "path dependency"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/workload/repository-preflight.md"
+required = true
+min_size_bytes = 800
+require_regex = ["repository-preflight", "Promotion"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "baseline/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["14.921", "unmeasured"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "baseline/preflight.py"
+required = true
+min_size_bytes = 1000
+require_regex = ["cyclone.baseline.repository-preflight/v0"]
+forbid_regex = ["TODO", "FIXME"]
+forbid_secrets = true
+
+[[file]]
+path = "baseline/corpus.lock.json"
+required = true
+min_size_bytes = 500
+require_regex = ["cyclone.corpus.lock/v0"]
+forbid_secrets = true
+
+[[file]]
+path = "baseline/measurements/repository-preflight.json"
+required = true
+min_size_bytes = 5000
+require_regex = ["cyclone.baseline.repository-preflight/v0", "\"agent_observations\": 0"]
+forbid_secrets = true
+
+[[command]]
+name = "preflight script syntax"
+cmd = ["python3", "-m", "py_compile", "baseline/preflight.py"]
+env = { PYTHONDONTWRITEBYTECODE = "1" }
+expect_exit = 0
+timeout_secs = 30
+
+[[file]]
+path = "docs/phase-1/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone audit", "provisional"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0005-phase-1-observation-and-detection.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone-observe", "sequence"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-observe/src/lib.rs"
+required = true
+min_size_bytes = 1000
+require_regex = ["ActionObservation", "sequence"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone/src/main.rs"
+required = true
+min_size_bytes = 200
+require_regex = ["audit", "compile", "verify", "schedule", "admit", "portfolio", "adversarial", "dashboard", "equivalence", "guarantees", "authority"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/phase-2/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone compile", "shadow"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0006-phase-2-cir-and-shadow.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone.cir/v0", "interpret"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-ir/src/lib.rs"
+required = true
+min_size_bytes = 1000
+require_regex = ["cyclone.cir/v0", "fn validate"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-compile/src/lib.rs"
+required = true
+min_size_bytes = 1000
+require_regex = ["fn compile"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-verify/src/lib.rs"
+required = true
+min_size_bytes = 400
+require_regex = ["fn shadow", "fn interpret"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/phase-3/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone schedule", "critical"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0007-phase-3-composition.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone.graph/v0", "synchronous"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-compose/src/lib.rs"
+required = true
+min_size_bytes = 1000
+require_regex = ["fn compose", "fn run_graph"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/phase-4/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone admit", "rollback"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0008-phase-4-admission.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone.admission/v0", "hysteresis"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-runtime/src/lib.rs"
+required = true
+min_size_bytes = 1000
+require_regex = ["fn admit"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-telemetry/src/lib.rs"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone.telemetry/v0"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/phase-5/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone portfolio", "reuse"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0009-phase-5-portfolio.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone.portfolio/v0", "neutral"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-registry/src/lib.rs"
+required = true
+min_size_bytes = 1000
+require_regex = ["fn portfolio"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adversarial/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone adversarial", "contained"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0010-adversarial-containment.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone.adversarial/v0", "containment"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-adversarial/src/lib.rs"
+required = true
+min_size_bytes = 1000
+require_regex = ["fn contain"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "traces/adversarial.json"
+required = true
+min_size_bytes = 80
+require_regex = ["cyclone.adversarial.corpus/v0", "\"objectives\""]
+forbid_secrets = true
+
+[[file]]
+path = "docs/dashboard/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone dashboard", "pressure history"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0011-operator-dashboard.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone.dashboard/v0", "journal"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-dashboard/src/lib.rs"
+required = true
+min_size_bytes = 1000
+require_regex = ["fn project", "fn render_html"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/equivalence/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone equivalence", "equivalence contract"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0012-equivalence-contract.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone.equivalence/v0", "tolerance"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-equivalence/src/lib.rs"
+required = true
+min_size_bytes = 1000
+require_regex = ["fn declare"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/guarantees/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone guarantees", "execution guarantee"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0013-execution-guarantees.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone.guarantees/v0", "exactly-once"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-guarantees/src/lib.rs"
+required = true
+min_size_bytes = 1000
+require_regex = ["fn declare"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/authority/README.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone authority", "authority context"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "docs/adr/0014-authority-context.md"
+required = true
+min_size_bytes = 400
+require_regex = ["cyclone.authority/v0", "historical_permission"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "crates/cyclone-authority/src/lib.rs"
+required = true
+min_size_bytes = 1000
+require_regex = ["fn declare"]
+forbid_regex = ["TODO", "FIXME"]
+
+[[file]]
+path = "traces/portfolio-agents.jsonl"
+required = true
+min_size_bytes = 1000
+require_regex = ["\"agent_id\": \"alpha\"", "\"agent_id\": \"beta\""]
+forbid_secrets = true
+
+[[file]]
+path = "traces/admit-disabled.policy.json"
+required = true
+min_size_bytes = 40
+require_regex = ["cyclone.policy/v0"]
+forbid_secrets = true
+
+[[file]]
+path = "traces/pure-30.jsonl"
+required = true
+min_size_bytes = 1000
+require_regex = ["\"action_kind\": \"pure\"", "\"effect_class\": \"pure\""]
+forbid_secrets = true
+
+[[command]]
+name = "corpus lock"
+cmd = ["python3", "baseline/preflight.py", "--check", "baseline/corpus.lock.json"]
+env = { PYTHONDONTWRITEBYTECODE = "1" }
+expect_exit = 0
+stdout_contains = ["corpus lock ok: 6 repositories"]
+timeout_secs = 60
+
+[[command]]
+name = "workspace tests"
+cmd = ["cargo", "test", "--workspace", "--offline"]
+expect_exit = 0
+timeout_secs = 180
+stdout_contains = ["test result: ok"]

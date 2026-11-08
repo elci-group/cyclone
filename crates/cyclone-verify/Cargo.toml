@@ -1,0 +1,16 @@
+[package]
+name = "cyclone-verify"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Digest interpreter and shadow equivalence"
+
+[dependencies]
+cyclone-detect.workspace = true
+cyclone-ir.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+cyclone-observe.workspace = true

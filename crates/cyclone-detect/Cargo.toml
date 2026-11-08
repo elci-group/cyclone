@@ -1,0 +1,10 @@
+[package]
+name = "cyclone-detect"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Segmentation and candidate mining"
+
+[dependencies]
+cyclone-observe.workspace = true

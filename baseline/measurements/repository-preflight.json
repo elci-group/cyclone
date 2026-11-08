@@ -1,0 +1,893 @@
+{
+  "schema": "cyclone.baseline.repository-preflight/v0",
+  "captured_at": "2026-11-08T12:39:18Z",
+  "host": {
+    "system": "Linux",
+    "release": "6.18.7-76061807-generic",
+    "machine": "x86_64",
+    "python": "3.12.3",
+    "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "git": "git version 2.43.0",
+    "tov": "tov 0.0.1",
+    "deliver": "deliver 1.0.1"
+  },
+  "procedure": {
+    "id": "repository-preflight",
+    "version": 0,
+    "steps": [
+      "git.toplevel",
+      "git.head",
+      "git.branch",
+      "git.origin",
+      "git.status_count",
+      "manifest.discover",
+      "deps.extract",
+      "tests.discover"
+    ],
+    "runs": 2,
+    "mutation": false,
+    "network": false,
+    "inference": "unmeasured",
+    "cargo_metadata": false,
+    "notes": [
+      "Single-operator mechanical samples. They are not agent observations.",
+      "Wall time includes a warm page cache on later runs.",
+      "Dirty tracked counts omit paths.",
+      "process_max_rss_kb is the interpreter high-water mark, not a per-repository allocation.",
+      "Manifest bodies are hashed and parsed. They are not stored."
+    ]
+  },
+  "repositories": [
+    {
+      "path": "/home/sal/Tov",
+      "identity": {
+        "toplevel": "/home/sal/Tov",
+        "head": "ba81eb0d9cffe745411cafdd112c59d86cd7deb8",
+        "branch": "main",
+        "origin": "https://github.com/richiemcilroy/Tov",
+        "git_ok": true
+      },
+      "dirty_tracked_count": 0,
+      "crates": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "3fde3cfae107b8e34e9701fc432a5a1fe2f35900ebcd96dd0f566c13c000042f",
+          "bytes": 152,
+          "package": null,
+          "version": null,
+          "edition": "2024",
+          "publish": null,
+          "workspace_members": [
+            "crates/tov"
+          ],
+          "workspace_resolver": "3",
+          "dependencies": {
+            "normal": [],
+            "dev": [],
+            "build": [],
+            "workspace": []
+          },
+          "path_dependencies": [],
+          "autotests": false,
+          "declared_tests": [],
+          "discovered_tests": []
+        },
+        {
+          "manifest": "crates/tov/Cargo.toml",
+          "sha256": "3d76a5fdc56000d7239da865f07dd2a31429e18e8e1f5af8b0e14d158b729530",
+          "bytes": 772,
+          "package": "tov",
+          "version": "0.0.1",
+          "edition": "2024",
+          "publish": null,
+          "workspace_members": [],
+          "workspace_resolver": null,
+          "dependencies": {
+            "normal": [],
+            "dev": [],
+            "build": [],
+            "workspace": []
+          },
+          "path_dependencies": [],
+          "autotests": true,
+          "declared_tests": [
+            {
+              "name": "ui",
+              "path": "../../tests/ui.rs",
+              "resolved": "/home/sal/Tov/tests/ui.rs",
+              "bytes": 2723,
+              "harness": false
+            },
+            {
+              "name": "robustness",
+              "path": "../../tests/robustness.rs",
+              "resolved": "/home/sal/Tov/tests/robustness.rs",
+              "bytes": 3201,
+              "harness": false
+            },
+            {
+              "name": "run",
+              "path": "../../tests/run.rs",
+              "resolved": "/home/sal/Tov/tests/run.rs",
+              "bytes": 3415,
+              "harness": false
+            },
+            {
+              "name": "http",
+              "path": "../../tests/http.rs",
+              "resolved": "/home/sal/Tov/tests/http.rs",
+              "bytes": 14528,
+              "harness": false
+            },
+            {
+              "name": "parity",
+              "path": "../../tests/parity.rs",
+              "resolved": "/home/sal/Tov/tests/parity.rs",
+              "bytes": 5032,
+              "harness": false
+            },
+            {
+              "name": "async",
+              "path": "../../tests/async.rs",
+              "resolved": "/home/sal/Tov/tests/async.rs",
+              "bytes": 2864,
+              "harness": false
+            },
+            {
+              "name": "fetch",
+              "path": "../../tests/fetch.rs",
+              "resolved": "/home/sal/Tov/tests/fetch.rs",
+              "bytes": 23181,
+              "harness": false
+            },
+            {
+              "name": "npm",
+              "path": "../../tests/npm.rs",
+              "resolved": "/home/sal/Tov/tests/npm.rs",
+              "bytes": 5488,
+              "harness": false
+            }
+          ],
+          "discovered_tests": []
+        }
+      ],
+      "packages": [],
+      "test_files": 8,
+      "test_bytes": 60432,
+      "manifest_bytes_read": 924,
+      "samples": [
+        {
+          "wall_ms": 15.118,
+          "cpu_ms": 18.024,
+          "steps_ms": {
+            "git.toplevel": 2.36,
+            "git.head": 2.153,
+            "git.branch": 2.18,
+            "git.origin": 1.97,
+            "git.status_count": 4.49,
+            "manifest.discover": 0.376,
+            "deps.extract": 1.364,
+            "tests.discover": 0.012
+          },
+          "process_max_rss_kb": 19400,
+          "run": 1
+        },
+        {
+          "wall_ms": 15.72,
+          "cpu_ms": 18.226,
+          "steps_ms": {
+            "git.toplevel": 2.44,
+            "git.head": 2.25,
+            "git.branch": 2.144,
+            "git.origin": 2.332,
+            "git.status_count": 4.187,
+            "manifest.discover": 0.517,
+            "deps.extract": 1.586,
+            "tests.discover": 0.009
+          },
+          "process_max_rss_kb": 19400,
+          "run": 2
+        }
+      ]
+    },
+    {
+      "path": "/home/sal/lastdown",
+      "identity": {
+        "toplevel": "/home/sal/lastdown",
+        "head": "e1c4a4e6ee7567133b3762a25dd9dd517660a4da",
+        "branch": "main",
+        "origin": "git@github.com:elci-group/lastdown.git",
+        "git_ok": true
+      },
+      "dirty_tracked_count": 0,
+      "crates": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "cd0b214490412f7e4e50f5db0b256a96203e34bef24eb4fd8c60759d7ba82496",
+          "bytes": 390,
+          "package": "lastdown",
+          "version": "0.1.6",
+          "edition": "2021",
+          "publish": false,
+          "workspace_members": [],
+          "workspace_resolver": null,
+          "dependencies": {
+            "normal": [
+              "form3",
+              "serde",
+              "serde_json",
+              "sha2",
+              "thiserror"
+            ],
+            "dev": [
+              "serde_json"
+            ],
+            "build": [],
+            "workspace": []
+          },
+          "path_dependencies": [
+            {
+              "name": "form3",
+              "path": "/home/sal/3form"
+            }
+          ],
+          "autotests": true,
+          "declared_tests": [],
+          "discovered_tests": [
+            {
+              "path": "tests/adversarial.rs",
+              "bytes": 11071
+            },
+            {
+              "path": "tests/benchmark.rs",
+              "bytes": 2774
+            },
+            {
+              "path": "tests/handoff.rs",
+              "bytes": 3076
+            },
+            {
+              "path": "tests/jumbotron.rs",
+              "bytes": 2393
+            },
+            {
+              "path": "tests/milestone.rs",
+              "bytes": 5266
+            },
+            {
+              "path": "tests/prove.rs",
+              "bytes": 3565
+            },
+            {
+              "path": "tests/quota.rs",
+              "bytes": 2028
+            },
+            {
+              "path": "tests/release_gates.rs",
+              "bytes": 25488
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "test_files": 8,
+      "test_bytes": 55661,
+      "manifest_bytes_read": 390,
+      "samples": [
+        {
+          "wall_ms": 20.06,
+          "cpu_ms": 20.199,
+          "steps_ms": {
+            "git.toplevel": 2.75,
+            "git.head": 4.076,
+            "git.branch": 3.458,
+            "git.origin": 2.527,
+            "git.status_count": 6.283,
+            "manifest.discover": 0.372,
+            "deps.extract": 0.379,
+            "tests.discover": 0.034
+          },
+          "process_max_rss_kb": 19400,
+          "run": 1
+        },
+        {
+          "wall_ms": 14.725,
+          "cpu_ms": 15.33,
+          "steps_ms": {
+            "git.toplevel": 2.393,
+            "git.head": 2.335,
+            "git.branch": 3.49,
+            "git.origin": 2.533,
+            "git.status_count": 2.537,
+            "manifest.discover": 0.342,
+            "deps.extract": 0.74,
+            "tests.discover": 0.099
+          },
+          "process_max_rss_kb": 19400,
+          "run": 2
+        }
+      ]
+    },
+    {
+      "path": "/home/sal/deliver",
+      "identity": {
+        "toplevel": "/home/sal/deliver",
+        "head": "1a1d473df4732f7e64edeee306b366d5bcd85c37",
+        "branch": "drowzy",
+        "origin": "git@github.com:elci-group/deliver.git",
+        "git_ok": true
+      },
+      "dirty_tracked_count": 0,
+      "crates": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "b05de92b38ccccb921ac1c4f9134e972527297ae9bdd3555947b6c2c12409ae5",
+          "bytes": 1135,
+          "package": "deliver",
+          "version": "1.0.1",
+          "edition": "2021",
+          "publish": null,
+          "workspace_members": [],
+          "workspace_resolver": null,
+          "dependencies": {
+            "normal": [
+              "blake3",
+              "clap",
+              "clap_complete",
+              "ed25519-dalek",
+              "getrandom",
+              "glob",
+              "jsonschema",
+              "regex",
+              "serde",
+              "serde_json",
+              "serde_yaml",
+              "sha2",
+              "toml"
+            ],
+            "dev": [
+              "criterion",
+              "proptest",
+              "tempfile"
+            ],
+            "build": [],
+            "workspace": []
+          },
+          "path_dependencies": [],
+          "autotests": true,
+          "declared_tests": [],
+          "discovered_tests": [
+            {
+              "path": "tests/integration_test.rs",
+              "bytes": 62131
+            },
+            {
+              "path": "tests/stable_api.rs",
+              "bytes": 3274
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "test_files": 2,
+      "test_bytes": 65405,
+      "manifest_bytes_read": 1135,
+      "samples": [
+        {
+          "wall_ms": 24.31,
+          "cpu_ms": 24.721,
+          "steps_ms": {
+            "git.toplevel": 2.131,
+            "git.head": 3.528,
+            "git.branch": 3.735,
+            "git.origin": 3.143,
+            "git.status_count": 7.408,
+            "manifest.discover": 1.388,
+            "deps.extract": 1.84,
+            "tests.discover": 0.083
+          },
+          "process_max_rss_kb": 19400,
+          "run": 1
+        },
+        {
+          "wall_ms": 14.435,
+          "cpu_ms": 15.026,
+          "steps_ms": {
+            "git.toplevel": 2.511,
+            "git.head": 2.494,
+            "git.branch": 3.018,
+            "git.origin": 1.641,
+            "git.status_count": 3.107,
+            "manifest.discover": 0.574,
+            "deps.extract": 0.663,
+            "tests.discover": 0.036
+          },
+          "process_max_rss_kb": 19400,
+          "run": 2
+        }
+      ]
+    },
+    {
+      "path": "/home/sal/lucid-cli",
+      "identity": {
+        "toplevel": "/home/sal/lucid-cli",
+        "head": "e10024bfecf3d4ee6846aced5282a9ec55f148fc",
+        "branch": "main",
+        "origin": null,
+        "git_ok": true
+      },
+      "dirty_tracked_count": 12,
+      "crates": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "0373672c893f4b3eafcce0ba2b782322aa9752fa01e4ba54ca917f5f8f05e251",
+          "bytes": 701,
+          "package": null,
+          "version": null,
+          "edition": "2021",
+          "publish": null,
+          "workspace_members": [
+            "crates/lucid-contract",
+            "crates/lucid-core",
+            "crates/lucid-cli"
+          ],
+          "workspace_resolver": "2",
+          "dependencies": {
+            "normal": [],
+            "dev": [],
+            "build": [],
+            "workspace": [
+              "chrono",
+              "clap",
+              "hex",
+              "ratatui",
+              "reqwest",
+              "rusqlite",
+              "serde",
+              "serde_json",
+              "sha2",
+              "tempfile",
+              "thiserror",
+              "tokio"
+            ]
+          },
+          "path_dependencies": [],
+          "autotests": false,
+          "declared_tests": [],
+          "discovered_tests": []
+        },
+        {
+          "manifest": "crates/lucid-contract/Cargo.toml",
+          "sha256": "bd85ba12dd7be313d773f07619a79b213fe46e429bc08104ad69de3ea9b4003d",
+          "bytes": 384,
+          "package": "lucid-contract",
+          "version": "0.1.0",
+          "edition": "2021",
+          "publish": {
+            "workspace": true
+          },
+          "workspace_members": [],
+          "workspace_resolver": null,
+          "dependencies": {
+            "normal": [
+              "hex",
+              "serde",
+              "serde_json",
+              "sha2",
+              "thiserror"
+            ],
+            "dev": [],
+            "build": [],
+            "workspace": []
+          },
+          "path_dependencies": [],
+          "autotests": true,
+          "declared_tests": [],
+          "discovered_tests": []
+        },
+        {
+          "manifest": "crates/lucid-core/Cargo.toml",
+          "sha256": "02f6e9faf8a66a93e1574e521821b696f97d85aaddce03f71524fce76654801b",
+          "bytes": 683,
+          "package": "lucid-core",
+          "version": "0.1.0",
+          "edition": "2021",
+          "publish": {
+            "workspace": true
+          },
+          "workspace_members": [],
+          "workspace_resolver": null,
+          "dependencies": {
+            "normal": [
+              "chrono",
+              "colony-core",
+              "colony-planner",
+              "hex",
+              "lucid-contract",
+              "reqwest",
+              "rusqlite",
+              "serde",
+              "serde_json",
+              "sha2",
+              "thiserror"
+            ],
+            "dev": [
+              "tempfile"
+            ],
+            "build": [],
+            "workspace": []
+          },
+          "path_dependencies": [
+            {
+              "name": "colony-core",
+              "path": "/home/sal/:e/crates/colony-core"
+            },
+            {
+              "name": "colony-planner",
+              "path": "/home/sal/:e/crates/colony-planner"
+            },
+            {
+              "name": "lucid-contract",
+              "path": "../lucid-contract"
+            }
+          ],
+          "autotests": true,
+          "declared_tests": [],
+          "discovered_tests": []
+        },
+        {
+          "manifest": "crates/lucid-cli/Cargo.toml",
+          "sha256": "beec7c9352090075e5f6f9eaaf2333020d66de163f3bdaf0f5334debc1f9d211",
+          "bytes": 592,
+          "package": "lucid-cli",
+          "version": "0.1.0",
+          "edition": "2021",
+          "publish": {
+            "workspace": true
+          },
+          "workspace_members": [],
+          "workspace_resolver": null,
+          "dependencies": {
+            "normal": [
+              "chrono",
+              "clap",
+              "lucid-contract",
+              "lucid-core",
+              "mesut",
+              "ratatui",
+              "serde_json",
+              "tokio"
+            ],
+            "dev": [
+              "tempfile"
+            ],
+            "build": [],
+            "workspace": []
+          },
+          "path_dependencies": [
+            {
+              "name": "lucid-contract",
+              "path": "../lucid-contract"
+            },
+            {
+              "name": "lucid-core",
+              "path": "../lucid-core"
+            },
+            {
+              "name": "mesut",
+              "path": "/home/sal/mesut/crates/mesut"
+            }
+          ],
+          "autotests": true,
+          "declared_tests": [],
+          "discovered_tests": [
+            {
+              "path": "crates/lucid-cli/tests/cli.rs",
+              "bytes": 16141
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "test_files": 1,
+      "test_bytes": 16141,
+      "manifest_bytes_read": 2360,
+      "samples": [
+        {
+          "wall_ms": 23.223,
+          "cpu_ms": 23.597,
+          "steps_ms": {
+            "git.toplevel": 4.332,
+            "git.head": 6.227,
+            "git.branch": 3.578,
+            "git.origin": 3.026,
+            "git.status_count": 3.579,
+            "manifest.discover": 0.693,
+            "deps.extract": 1.315,
+            "tests.discover": 0.017
+          },
+          "process_max_rss_kb": 19400,
+          "run": 1
+        },
+        {
+          "wall_ms": 11.091,
+          "cpu_ms": 11.622,
+          "steps_ms": {
+            "git.toplevel": 1.52,
+            "git.head": 1.953,
+            "git.branch": 2.28,
+            "git.origin": 2.15,
+            "git.status_count": 2.254,
+            "manifest.discover": 0.225,
+            "deps.extract": 0.549,
+            "tests.discover": 0.007
+          },
+          "process_max_rss_kb": 19400,
+          "run": 2
+        }
+      ]
+    },
+    {
+      "path": "/home/sal/bank",
+      "identity": {
+        "toplevel": "/home/sal/bank",
+        "head": "9ba841a01d9c98294860f249a865b8eb664e48a1",
+        "branch": "main",
+        "origin": "https://github.com/elci-group/bank",
+        "git_ok": true
+      },
+      "dirty_tracked_count": 3,
+      "crates": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "db5c5344eec2ce3db8d384198f682ae091f63ecbb8e27312afe6aeb11bfc3a75",
+          "bytes": 749,
+          "package": "bank",
+          "version": "0.2.1",
+          "edition": "2021",
+          "publish": null,
+          "workspace_members": [],
+          "workspace_resolver": null,
+          "dependencies": {
+            "normal": [
+              "anyhow",
+              "chrono",
+              "clap",
+              "dialoguer",
+              "filetime",
+              "form3",
+              "thiserror"
+            ],
+            "dev": [
+              "assert_cmd",
+              "predicates",
+              "tempfile"
+            ],
+            "build": [],
+            "workspace": []
+          },
+          "path_dependencies": [
+            {
+              "name": "form3",
+              "path": "../3form"
+            }
+          ],
+          "autotests": true,
+          "declared_tests": [],
+          "discovered_tests": [
+            {
+              "path": "tests/cli_errors.rs",
+              "bytes": 1067
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "test_files": 1,
+      "test_bytes": 1067,
+      "manifest_bytes_read": 749,
+      "samples": [
+        {
+          "wall_ms": 18.099,
+          "cpu_ms": 19.049,
+          "steps_ms": {
+            "git.toplevel": 3.178,
+            "git.head": 5.464,
+            "git.branch": 2.471,
+            "git.origin": 1.989,
+            "git.status_count": 3.621,
+            "manifest.discover": 0.478,
+            "deps.extract": 0.514,
+            "tests.discover": 0.021
+          },
+          "process_max_rss_kb": 19400,
+          "run": 1
+        },
+        {
+          "wall_ms": 11.226,
+          "cpu_ms": 11.753,
+          "steps_ms": {
+            "git.toplevel": 1.461,
+            "git.head": 2.352,
+            "git.branch": 1.468,
+            "git.origin": 2.03,
+            "git.status_count": 2.942,
+            "manifest.discover": 0.576,
+            "deps.extract": 0.216,
+            "tests.discover": 0.009
+          },
+          "process_max_rss_kb": 19400,
+          "run": 2
+        }
+      ]
+    },
+    {
+      "path": "/home/sal/padagonia",
+      "identity": {
+        "toplevel": "/home/sal/padagonia",
+        "head": "151df6ea63da43253ad02d6f48238cf587ed2a02",
+        "branch": "main",
+        "origin": "git@github.com:elci-group/padagonia.git",
+        "git_ok": true
+      },
+      "dirty_tracked_count": 8,
+      "crates": [
+        {
+          "manifest": "Cargo.toml",
+          "sha256": "0528845c5259d52adad158b7489a571643b2367f05eee6974af0c685aabc01f1",
+          "bytes": 1573,
+          "package": "padagonia",
+          "version": "0.2.2",
+          "edition": "2021",
+          "publish": null,
+          "workspace_members": [],
+          "workspace_resolver": null,
+          "dependencies": {
+            "normal": [
+              "ahash",
+              "axum",
+              "bound-core",
+              "config",
+              "crc32fast",
+              "fast-hnsw",
+              "metrics",
+              "metrics-exporter-prometheus",
+              "rand",
+              "rayon",
+              "rmp-serde",
+              "serde",
+              "serde_json",
+              "sha2",
+              "tokio",
+              "tower-http",
+              "tracing",
+              "tracing-subscriber",
+              "ureq"
+            ],
+            "dev": [
+              "criterion",
+              "proptest",
+              "tempfile",
+              "tower"
+            ],
+            "build": [],
+            "workspace": []
+          },
+          "path_dependencies": [
+            {
+              "name": "bound-core",
+              "path": "../bound/crates/bound-core"
+            }
+          ],
+          "autotests": true,
+          "declared_tests": [],
+          "discovered_tests": [
+            {
+              "path": "tests/epistemic.rs",
+              "bytes": 31931
+            },
+            {
+              "path": "tests/golden_fixtures.rs",
+              "bytes": 1967
+            },
+            {
+              "path": "tests/hardening.rs",
+              "bytes": 27307
+            },
+            {
+              "path": "tests/hnsw.rs",
+              "bytes": 3727
+            },
+            {
+              "path": "tests/inference.rs",
+              "bytes": 19356
+            },
+            {
+              "path": "tests/namespace.rs",
+              "bytes": 1860
+            },
+            {
+              "path": "tests/parallel_decode.rs",
+              "bytes": 772
+            },
+            {
+              "path": "tests/property_tests.rs",
+              "bytes": 5655
+            },
+            {
+              "path": "tests/query_pagination.rs",
+              "bytes": 1798
+            },
+            {
+              "path": "tests/query_tests.rs",
+              "bytes": 5239
+            },
+            {
+              "path": "tests/roundtrip.rs",
+              "bytes": 3319
+            },
+            {
+              "path": "tests/server.rs",
+              "bytes": 12527
+            },
+            {
+              "path": "tests/storage_atomic.rs",
+              "bytes": 2070
+            },
+            {
+              "path": "tests/storage_format.rs",
+              "bytes": 7870
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "test_files": 14,
+      "test_bytes": 125398,
+      "manifest_bytes_read": 1573,
+      "samples": [
+        {
+          "wall_ms": 14.362,
+          "cpu_ms": 15.132,
+          "steps_ms": {
+            "git.toplevel": 2.174,
+            "git.head": 1.928,
+            "git.branch": 1.969,
+            "git.origin": 1.961,
+            "git.status_count": 2.921,
+            "manifest.discover": 0.691,
+            "deps.extract": 1.907,
+            "tests.discover": 0.179
+          },
+          "process_max_rss_kb": 19400,
+          "run": 1
+        },
+        {
+          "wall_ms": 13.737,
+          "cpu_ms": 13.666,
+          "steps_ms": {
+            "git.toplevel": 1.624,
+            "git.head": 1.813,
+            "git.branch": 2.241,
+            "git.origin": 1.557,
+            "git.status_count": 2.184,
+            "manifest.discover": 0.899,
+            "deps.extract": 2.348,
+            "tests.discover": 0.164
+          },
+          "process_max_rss_kb": 19400,
+          "run": 2
+        }
+      ]
+    }
+  ],
+  "aggregate": {
+    "repositories": 6,
+    "samples": 12,
+    "wall_ms_min": 11.091,
+    "wall_ms_max": 24.31,
+    "wall_ms_median": 14.921,
+    "agent_observations": 0,
+    "promotion_eligible": false
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "cyclone.adversarial.corpus/v0",
+  "scenarios": [
+    "environment",
+    "idempotency",
+    "injection",
+    "fan_in",
+    "dependency",
+    "authority",
+    "partial",
+    "cache",
+    "cancel",
+    "rare",
+    "economics",
+    "objectives"
+  ]
+}
