@@ -408,15 +408,17 @@ fn scenario_authority() -> Outcome {
     }
     mixed.extend(foreign);
     let mixed_assessment = assess(&mixed, Some(1));
-    let cross = mixed_assessment.compiled.is_empty()
-        && mixed_assessment
-            .classes
-            .iter()
-            .any(|class| class.promotion == Promotion::Eligible)
-        && mixed_assessment
-            .refusals
-            .iter()
-            .any(|refusal| refusal.reason == "cross-tenant");
+    let cross = mixed_assessment.candidates.len() == 2
+        && mixed_assessment.candidates.iter().all(|candidate| {
+            candidate.agent_executions == 15
+                && candidate.agreement_considered == 15
+                && candidate.segments.iter().all(|segment| {
+                    segment.tenant_id == candidate.segments[0].tenant_id
+                })
+        })
+        && mixed_assessment.compiled.iter().all(|(candidate, current)| {
+            current.tenant_id == candidate.segments[0].tenant_id
+        });
     let traces = paired("auth");
     let owned = assess(&traces, Some(1));
     if owned.compiled.len() != 1 {

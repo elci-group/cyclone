@@ -89,11 +89,13 @@ impl EvidenceTable {
 
     pub fn parse(text: &str) -> Result<Self, PressureError> {
         #[derive(Deserialize)]
+        #[serde(deny_unknown_fields)]
         struct File {
             schema: String,
             entries: Vec<RawEntry>,
         }
         #[derive(Deserialize)]
+        #[serde(deny_unknown_fields)]
         struct RawEntry {
             signature: Vec<String>,
             replay: ReplayEvidence,
@@ -404,6 +406,24 @@ mod tests {
         let classification = classify(candidate, ReplayEvidence::Passed, None);
         assert_eq!(classification.pressure, Pressure::Gust);
         assert_eq!(classification.promotion, Promotion::Refused);
+    }
+
+    #[test]
+    fn evidence_table_rejects_unknown_top_level_fields() {
+        let error = EvidenceTable::parse(
+            r#"{"schema":"cyclone.evidence-table/v0","entries":[],"comment":"ignored before"}"#,
+        )
+        .unwrap_err();
+        assert_eq!(error, PressureError::Json);
+    }
+
+    #[test]
+    fn evidence_table_rejects_unknown_entry_fields() {
+        let error = EvidenceTable::parse(
+            r#"{"schema":"cyclone.evidence-table/v0","entries":[{"signature":["read"],"replay":"passed","economics_minor":1,"note":"ignored before"}]}"#,
+        )
+        .unwrap_err();
+        assert_eq!(error, PressureError::Json);
     }
 
     #[test]

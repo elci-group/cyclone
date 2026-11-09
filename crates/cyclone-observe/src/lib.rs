@@ -540,7 +540,10 @@ fn require_sequence(line: usize, sequence: u64) -> Result<(), ObserveError> {
 
 fn require_timestamp(line: usize, field: &str, value: &str) -> Result<(), ObserveError> {
     if !is_rfc3339(value) {
-        return Err(line_err(line, format!("{field} must be an RFC 3339 timestamp")));
+        return Err(line_err(
+            line,
+            format!("{field} must be an RFC 3339 timestamp"),
+        ));
     }
     Ok(())
 }
@@ -558,12 +561,21 @@ fn is_rfc3339(value: &str) -> bool {
     }
     let number = |start: usize, end: usize| -> Option<u32> {
         let slice = bytes.get(start..end)?;
-        if !slice.iter().all(u8::is_ascii_digit) { return None; }
+        if !slice.iter().all(u8::is_ascii_digit) {
+            return None;
+        }
         std::str::from_utf8(slice).ok()?.parse().ok()
     };
-    let (Some(year), Some(month), Some(day), Some(hour), Some(minute), Some(second)) =
-        (number(0, 4), number(5, 7), number(8, 10), number(11, 13), number(14, 16), number(17, 19))
-    else { return false; };
+    let (Some(year), Some(month), Some(day), Some(hour), Some(minute), Some(second)) = (
+        number(0, 4),
+        number(5, 7),
+        number(8, 10),
+        number(11, 13),
+        number(14, 16),
+        number(17, 19),
+    ) else {
+        return false;
+    };
     let leap = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
     let days = match month {
         1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
@@ -572,21 +584,31 @@ fn is_rfc3339(value: &str) -> bool {
         2 => 28,
         _ => return false,
     };
-    if day == 0 || day > days || hour > 23 || minute > 59 || second > 60 { return false; }
+    if day == 0 || day > days || hour > 23 || minute > 59 || second > 60 {
+        return false;
+    }
     let mut pos = 19;
     if bytes.get(pos) == Some(&b'.') {
         pos += 1;
         let start = pos;
-        while bytes.get(pos).is_some_and(u8::is_ascii_digit) { pos += 1; }
-        if pos == start { return false; }
+        while bytes.get(pos).is_some_and(u8::is_ascii_digit) {
+            pos += 1;
+        }
+        if pos == start {
+            return false;
+        }
     }
     match bytes.get(pos) {
         Some(b'Z' | b'z') => pos + 1 == bytes.len(),
         Some(b'+' | b'-') => {
             pos + 6 == bytes.len()
                 && bytes.get(pos + 3) == Some(&b':')
-                && bytes.get(pos + 1..pos + 3).is_some_and(|s| s.iter().all(u8::is_ascii_digit))
-                && bytes.get(pos + 4..pos + 6).is_some_and(|s| s.iter().all(u8::is_ascii_digit))
+                && bytes
+                    .get(pos + 1..pos + 3)
+                    .is_some_and(|s| s.iter().all(u8::is_ascii_digit))
+                && bytes
+                    .get(pos + 4..pos + 6)
+                    .is_some_and(|s| s.iter().all(u8::is_ascii_digit))
                 && number(pos + 1, pos + 3).is_some_and(|v| v <= 23)
                 && number(pos + 4, pos + 6).is_some_and(|v| v <= 59)
         }
@@ -596,18 +618,42 @@ fn is_rfc3339(value: &str) -> bool {
 
 fn timestamp_order_key(value: &str) -> (i64, String) {
     let bytes = value.as_bytes();
-    let offset_pos = bytes.iter().enumerate().skip(19).find_map(|(i, b)| matches!(b, b'Z' | b'z' | b'+' | b'-').then_some(i)).unwrap_or(value.len());
+    let offset_pos = bytes
+        .iter()
+        .enumerate()
+        .skip(19)
+        .find_map(|(i, b)| matches!(b, b'Z' | b'z' | b'+' | b'-').then_some(i))
+        .unwrap_or(value.len());
     let frac = value.get(19..offset_pos).unwrap_or("");
-    let fraction = frac.strip_prefix('.').unwrap_or("").trim_end_matches('0').to_string();
+    let fraction = frac
+        .strip_prefix('.')
+        .unwrap_or("")
+        .trim_end_matches('0')
+        .to_string();
     let offset = value.get(offset_pos..).unwrap_or("Z");
-    let (sign, oh, om) = if offset == "Z" || offset == "z" { (0_i64, 0_i64, 0_i64) } else {
+    let (sign, oh, om) = if offset == "Z" || offset == "z" {
+        (0_i64, 0_i64, 0_i64)
+    } else {
         let sign = if offset.starts_with('+') { 1 } else { -1 };
-        let h = offset.get(1..3).and_then(|s| s.parse::<i64>().ok()).unwrap_or(0);
-        let m = offset.get(4..6).and_then(|s| s.parse::<i64>().ok()).unwrap_or(0);
+        let h = offset
+            .get(1..3)
+            .and_then(|s| s.parse::<i64>().ok())
+            .unwrap_or(0);
+        let m = offset
+            .get(4..6)
+            .and_then(|s| s.parse::<i64>().ok())
+            .unwrap_or(0);
         (sign, h, m)
     };
     let local = value.get(..19).unwrap_or(value);
-    let (year, month, day, hour, minute, second) = (number_at(local,0,4), number_at(local,5,7), number_at(local,8,10), number_at(local,11,13), number_at(local,14,16), number_at(local,17,19));
+    let (year, month, day, hour, minute, second) = (
+        number_at(local, 0, 4),
+        number_at(local, 5, 7),
+        number_at(local, 8, 10),
+        number_at(local, 11, 13),
+        number_at(local, 14, 16),
+        number_at(local, 17, 19),
+    );
     let adjusted_year = year - i64::from(month <= 2);
     let era = adjusted_year.div_euclid(400);
     let year_of_era = adjusted_year - era * 400;
@@ -615,12 +661,16 @@ fn timestamp_order_key(value: &str) -> (i64, String) {
     let day_of_year = (153 * adjusted_month + 2) / 5 + day - 1;
     let day_of_era = year_of_era * 365 + year_of_era / 4 - year_of_era / 100 + day_of_year;
     let days = era * 146097 + day_of_era;
-    let utc_seconds = days * 86400 + hour * 3600 + minute * 60 + second - sign * (oh * 3600 + om * 60);
+    let utc_seconds =
+        days * 86400 + hour * 3600 + minute * 60 + second - sign * (oh * 3600 + om * 60);
     (utc_seconds, fraction)
 }
 
 fn number_at(value: &str, start: usize, end: usize) -> i64 {
-    value.get(start..end).and_then(|s| s.parse().ok()).unwrap_or(0)
+    value
+        .get(start..end)
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(0)
 }
 
 fn line_err(line: usize, message: impl Into<String>) -> ObserveError {
@@ -706,9 +756,18 @@ mod tests {
 
     #[test]
     fn observation_intervals_compare_across_timezones() {
-        assert!(timestamp_order_key("2026-11-08T10:00:00+01:00") < timestamp_order_key("2026-11-08T09:30:00Z"));
-        assert!(timestamp_order_key("2026-11-08T10:00:00Z") > timestamp_order_key("2026-11-08T09:59:59.999Z"));
-        assert_eq!(timestamp_order_key("2026-11-08T09:00:00.10Z"), timestamp_order_key("2026-11-08T09:00:00.1Z"));
+        assert!(
+            timestamp_order_key("2026-11-08T10:00:00+01:00")
+                < timestamp_order_key("2026-11-08T09:30:00Z")
+        );
+        assert!(
+            timestamp_order_key("2026-11-08T10:00:00Z")
+                > timestamp_order_key("2026-11-08T09:59:59.999Z")
+        );
+        assert_eq!(
+            timestamp_order_key("2026-11-08T09:00:00.10Z"),
+            timestamp_order_key("2026-11-08T09:00:00.1Z")
+        );
     }
 
     #[test]

@@ -77,24 +77,28 @@ pub fn segment_traces(traces: &[Trace]) -> Vec<Segment> {
 }
 
 pub fn mine(segments: &[Segment]) -> Vec<Candidate> {
-    let mut considered: BTreeSet<&str> = BTreeSet::new();
+    let mut considered: BTreeMap<&str, BTreeSet<&str>> = BTreeMap::new();
     for segment in segments {
         if segment.source == ObservationSource::Agent {
-            considered.insert(segment.execution_id.as_str());
+            considered
+                .entry(segment.tenant_id.as_str())
+                .or_default()
+                .insert(segment.execution_id.as_str());
         }
     }
-    let agreement_considered = considered.len() as u64;
 
-    let mut grouped: BTreeMap<&[String], Vec<&Segment>> = BTreeMap::new();
+    // Signatures are only comparable within one tenant. Pooling them here
+    // would let one tenant's repetitions raise another tenant's pressure.
+    let mut grouped: BTreeMap<(&str, &[String]), Vec<&Segment>> = BTreeMap::new();
     for segment in segments {
         grouped
-            .entry(segment.signature.as_slice())
+            .entry((segment.tenant_id.as_str(), segment.signature.as_slice()))
             .or_default()
             .push(segment);
     }
 
     let mut candidates = Vec::with_capacity(grouped.len());
-    for (signature, group) in grouped {
+    for ((tenant, signature), group) in grouped {
         let mut agent_ids: BTreeSet<&str> = BTreeSet::new();
         let mut mechanical_ids: BTreeSet<&str> = BTreeSet::new();
         for segment in &group {
@@ -113,7 +117,7 @@ pub fn mine(segments: &[Segment]) -> Vec<Candidate> {
             agent_executions: agent_ids.len() as u64,
             mechanical_executions: mechanical_ids.len() as u64,
             agreement_matching: agent_ids.len() as u64,
-            agreement_considered,
+            agreement_considered: considered.get(tenant).map_or(0, |ids| ids.len() as u64),
             parameter_space: parameter_space(&owned),
             deterministic: determinism(&owned),
             unknown_side_effects: owned.iter().any(|segment| {
@@ -277,5 +281,33 @@ mod tests {
             .unwrap();
         assert_eq!(write.agreement_matching, 1);
         assert_eq!(write.agreement_considered, 4);
+    }
+
+    #[test]
+    fn mining_keeps_tenant_evidence_and_agreement_isolated() {
+        let mut alpha = ActionObservation::new("exec-a", 1, "read").with_digests(
+            "sha256:input",
+            "sha256:output-a",
+            "sha256:env",
+        );
+        alpha.tenant_id = "alpha".to_string();
+        let mut beta = ActionObservation::new("exec-b", 1, "read").with_digests(
+            "sha256:input",
+            "sha256:output-b",
+            "sha256:env",
+        );
+        beta.tenant_id = "beta".to_string();
+
+        let traces = vec![trace(vec![alpha]), trace(vec![beta])];
+        let candidates = mine(&segment_traces(&traces));
+
+        assert_eq!(candidates.len(), 2);
+        for candidate in candidates {
+            assert_eq!(candidate.agent_executions, 1);
+            assert_eq!(candidate.agreement_matching, 1);
+            assert_eq!(candidate.agreement_considered, 1);
+            assert_eq!(candidate.deterministic, Determinism::Held);
+            assert_eq!(candidate.segments.len(), 1);
+        }
     }
 }
