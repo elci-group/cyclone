@@ -44,6 +44,64 @@ pub const COMPILE_V0: &str = "cyclone.compile/v0";
 pub const VERIFY_V0: &str = "cyclone.verify/v0";
 pub const SCHEDULE_V0: &str = "cyclone.schedule/v0";
 pub const ADMIT_V0: &str = ADMISSION_V0;
+pub const RELIANCE_V0: &str = "cyclone.reliance/v0";
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct RelianceRecord {
+    pub tenant_id: String,
+    pub execution_id: String,
+    pub task_id: String,
+    pub input_digest: Option<String>,
+    pub preceding_tasks: Vec<String>,
+    pub reliance: Option<u8>,
+    pub status: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct RelianceReport {
+    pub schema: String,
+    pub method: String,
+    pub records: Vec<RelianceRecord>,
+}
+
+/// Retrospectively measure digest-linked reliance on preceding successful
+/// tasks. This is an observed association, not proof of semantic causation.
+pub fn reliance_trace(text: &str) -> Result<RelianceReport, AuditError> {
+    let ingested = ingest_jsonl(text)?;
+    let mut records = Vec::new();
+    for trace in ingested.traces {
+        for (index, task) in trace.observations.iter().enumerate() {
+            let linked: Vec<String> = match task.input_digest.as_deref() {
+                Some(input) => trace.observations[..index].iter()
+                    .filter(|prior| prior.outcome == ActionOutcome::Success
+                        && prior.output_digest.as_deref() == Some(input))
+                    .map(|prior| prior.observation_id.clone()).collect(),
+                None => Vec::new(),
+            };
+            let (reliance, status) = if task.input_digest.is_none() {
+                (None, "insufficient_input_evidence")
+            } else if index == 0 {
+                (Some(0), "no_preceding_task")
+            } else {
+                (Some(if linked.is_empty() { 0 } else { 100 }), "observed_digest_match")
+            };
+            records.push(RelianceRecord {
+                tenant_id: trace.tenant_id.clone(),
+                execution_id: trace.execution_id.clone(),
+                task_id: task.observation_id.clone(),
+                input_digest: task.input_digest.clone(),
+                preceding_tasks: linked,
+                reliance,
+                status: status.to_string(),
+            });
+        }
+    }
+    Ok(RelianceReport {
+        schema: RELIANCE_V0.to_string(),
+        method: "binary digest match against prior successful outputs; association only".to_string(),
+        records,
+    })
+}
 
 #[derive(Debug, Error)]
 pub enum AuditError {
