@@ -412,13 +412,15 @@ fn scenario_authority() -> Outcome {
         && mixed_assessment.candidates.iter().all(|candidate| {
             candidate.agent_executions == 15
                 && candidate.agreement_considered == 15
-                && candidate.segments.iter().all(|segment| {
-                    segment.tenant_id == candidate.segments[0].tenant_id
-                })
+                && candidate
+                    .segments
+                    .iter()
+                    .all(|segment| segment.tenant_id == candidate.segments[0].tenant_id)
         })
-        && mixed_assessment.compiled.iter().all(|(candidate, current)| {
-            current.tenant_id == candidate.segments[0].tenant_id
-        });
+        && mixed_assessment
+            .compiled
+            .iter()
+            .all(|(candidate, current)| current.tenant_id == candidate.segments[0].tenant_id);
     let traces = paired("auth");
     let owned = assess(&traces, Some(1));
     if owned.compiled.len() != 1 {

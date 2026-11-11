@@ -45,6 +45,7 @@ pub const VERIFY_V0: &str = "cyclone.verify/v0";
 pub const SCHEDULE_V0: &str = "cyclone.schedule/v0";
 pub const ADMIT_V0: &str = ADMISSION_V0;
 pub const RELIANCE_V0: &str = "cyclone.reliance/v0";
+pub const RELIANCE_WINDOW: usize = 32;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct RelianceRecord {
@@ -53,7 +54,9 @@ pub struct RelianceRecord {
     pub task_id: String,
     pub input_digest: Option<String>,
     pub preceding_tasks: Vec<String>,
+    pub nearest_predecessor_turns_back: Option<usize>,
     pub reliance: Option<u8>,
+    pub confidence: Option<u8>,
     pub status: String,
 }
 
@@ -71,34 +74,58 @@ pub fn reliance_trace(text: &str) -> Result<RelianceReport, AuditError> {
     let mut records = Vec::new();
     for trace in ingested.traces {
         for (index, task) in trace.observations.iter().enumerate() {
+            let start = index.saturating_sub(RELIANCE_WINDOW);
+            let prior = &trace.observations[start..index];
             let linked: Vec<String> = match task.input_digest.as_deref() {
-                Some(input) => trace.observations[..index].iter()
-                    .filter(|prior| prior.outcome == ActionOutcome::Success
-                        && prior.output_digest.as_deref() == Some(input))
-                    .map(|prior| prior.observation_id.clone()).collect(),
+                Some(input) => prior
+                    .iter()
+                    .filter(|prior| {
+                        prior.outcome == ActionOutcome::Success
+                            && prior.output_digest.as_deref() == Some(input)
+                    })
+                    .map(|prior| prior.observation_id.clone())
+                    .collect(),
                 None => Vec::new(),
             };
-            let (reliance, status) = if task.input_digest.is_none() {
-                (None, "insufficient_input_evidence")
+            let (reliance, confidence, status) = if task.input_digest.is_none() {
+                (None, None, "insufficient_input_evidence")
             } else if index == 0 {
-                (Some(0), "no_preceding_task")
+                (Some(0), Some(0), "no_preceding_task")
+            } else if linked.is_empty() {
+                (Some(0), Some(0), "no_digest_match_in_window")
             } else {
-                (Some(if linked.is_empty() { 0 } else { 100 }), "observed_digest_match")
+                let distance = prior
+                    .iter()
+                    .rev()
+                    .position(|row| row.observation_id == *linked.last().unwrap())
+                    .map_or(RELIANCE_WINDOW, |n| n + 1);
+                let confidence = 100_u8
+                    .saturating_sub(((distance.saturating_sub(1) * 100) / RELIANCE_WINDOW) as u8);
+                (Some(100), Some(confidence), "observed_digest_match")
             };
             records.push(RelianceRecord {
                 tenant_id: trace.tenant_id.clone(),
                 execution_id: trace.execution_id.clone(),
                 task_id: task.observation_id.clone(),
                 input_digest: task.input_digest.clone(),
+                nearest_predecessor_turns_back: linked.last().and_then(|id| {
+                    prior
+                        .iter()
+                        .rev()
+                        .position(|row| row.observation_id == *id)
+                        .map(|n| n + 1)
+                }),
                 preceding_tasks: linked,
                 reliance,
+                confidence,
                 status: status.to_string(),
             });
         }
     }
     Ok(RelianceReport {
         schema: RELIANCE_V0.to_string(),
-        method: "binary digest match against prior successful outputs; association only".to_string(),
+        method: "digest match against prior successful outputs; confidence decays linearly with observation distance; association only"
+            .to_string(),
         records,
     })
 }

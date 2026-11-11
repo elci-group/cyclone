@@ -209,6 +209,27 @@ fn run() -> Result<ExitCode, String> {
                 Ok(ExitCode::from(1))
             }
         }
+        Command::Reliance => {
+            let report = cyclone::reliance_trace(&text).map_err(|error| error.to_string())?;
+            let rendered = format!(
+                "schema: {}\nwindow: previous {} turns\nmethod: {}\n{}",
+                report.schema,
+                cyclone::RELIANCE_WINDOW,
+                report.method,
+                report
+                    .records
+                    .iter()
+                    .map(|r| format!(
+                    "{} tenant={} execution={} reliance={:?} confidence={:?} nearest_predecessor={:?} status={}",
+                    r.task_id, r.tenant_id, r.execution_id, r.reliance,
+                    r.confidence, r.nearest_predecessor_turns_back, r.status
+                ))
+                    .collect::<Vec<_>>()
+                    .join("\n")
+            );
+            emit(args.json, &report, rendered)?;
+            Ok(ExitCode::SUCCESS)
+        }
     }
 }
 
@@ -236,6 +257,7 @@ enum Command {
     Equivalence,
     Guarantees,
     Authority,
+    Reliance,
 }
 
 impl Command {
@@ -252,6 +274,7 @@ impl Command {
             Command::Equivalence => "equivalence",
             Command::Guarantees => "guarantees",
             Command::Authority => "authority",
+            Command::Reliance => "reliance",
         }
     }
 }
@@ -281,6 +304,7 @@ fn parse_args() -> Result<Args, String> {
         Some("equivalence") => Command::Equivalence,
         Some("guarantees") => Command::Guarantees,
         Some("authority") => Command::Authority,
+        Some("reliance") => Command::Reliance,
         _ => return Err(usage()),
     };
     let name = command.name();
@@ -369,6 +393,6 @@ fn parse_args() -> Result<Args, String> {
 }
 
 fn usage() -> String {
-    "usage: cyclone audit|compile|verify|schedule|admit|portfolio|adversarial|dashboard|equivalence|guarantees|authority [--json] [--html FILE] [--evidence FILE] [--policy FILE] [--economics FILE] [--grant FILE] TRACE"
+    "usage: cyclone audit|compile|verify|schedule|admit|portfolio|adversarial|dashboard|equivalence|guarantees|authority|reliance [--json] [--html FILE] [--evidence FILE] [--policy FILE] [--economics FILE] [--grant FILE] TRACE"
         .to_string()
 }
